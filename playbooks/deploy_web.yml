@@ -1,0 +1,25 @@
+---
+- name: deploy web
+  hosts: all
+  become: yes
+  vars:
+    admin_name: "madmin1"
+  tasks:
+    - name: install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+    - name:   teamplate
+      template:
+        src: ../templates/index.html.j2
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      notify: restart nginx
+  handlers:
+    - name: restart nginx
+      systemd:
+        name: nginx
+        state: restarted

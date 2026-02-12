@@ -1,0 +1,36 @@
+---
+- name: add new user
+  hosts: all
+  become: yes
+  vars_files:
+   - ../vars/password.yml
+  tasks:
+  - name: create new group devops
+    group:
+      name: devops
+      state: present
+  - name: create new user
+    user:
+      name: madmin1
+      state: present
+      shell: /bin/bash
+      password: "{{user_pass | password_hash('sha512') }}"
+      groups: sudo,devops
+      append: yes
+  - name: add ssh key
+    authorized_key:
+      user: madmin1
+      state: present
+      key: "{{ lookup('file','/home/madmin1/.ssh/id_ed25519.pub') }}"
+  - name: create workspace
+    file:
+      path: /opt/dev_work
+      state: directory
+      owner: madmin1
+      group: devops
+      mode: '0775'
+  - name: remove testuser
+    user:
+      name: testuser
+      state: absent
+      remove: yes

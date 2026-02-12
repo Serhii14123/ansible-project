@@ -1,0 +1,15 @@
+---
+- name: deploy nginx
+  hosts: all
+  become: yes
+  tasks:
+  - name: install nginx
+    apt:
+      name: nginx
+      state: present
+      update_cache: yes
+  - name:  service nginx
+    systemd:
+      name: nginx
+      state: started
+      enabled: yes
