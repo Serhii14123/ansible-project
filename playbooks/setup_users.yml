@@ -1,0 +1,30 @@
+---
+ - name: setup_users
+   hosts: all
+   become: yes
+   vars_files:
+     - ../vars/password.yml
+   tasks:
+     - name: creat group devops
+       group:
+         name: devops
+         state: present
+     - name: creat work directory
+       file:
+         path: /opt/ver_work
+         state: directory
+         owner: root
+         group: devops
+         mode: '2775'
+     - name: create new user
+       user:
+         name: devuser
+         groups: devops, sudo
+         password: "{{ devuser_pass | password_hash('sha512') }}"
+         append: yes
+         shell: /bin/bash
+     - name: add ssh key for devuser
+       authorized_key:
+         user: devuser
+         state: present
+         key: "{{lookup('file', '~/.ssh/id_ed25519.pub') }}"

@@ -1,0 +1,40 @@
+---
+ - name: deploy ssh
+   hosts: all
+   become: yes
+   vars_files:
+     - ../vars/password.yml
+   vars:
+     ssh_port: 2222
+     root_login: "no"
+     password_auth: "no"
+
+   tasks:
+     - name: turn off ssh.socket
+       systemd:
+         name: ssh.socket
+         state: stopped
+         enabled: no
+       # masked: yes
+       # daemon_reload: yes
+
+     - name: remove sshd_config.d
+       file:
+         path: /etc/ssh/sshd_config.d/50-cloud-init.conf
+         state: absent
+
+     - name: template sshd_config
+       template:
+         src: ../templates/sshd_config.j2
+         dest: /etc/ssh/sshd_config
+         owner: root
+         group: root
+         mode: '0644'
+         validate: '/usr/sbin/sshd -t -f %s'
+       notify: restart ssh
+
+   handlers:
+     - name: restart ssh
+       systemd:
+         name: ssh
+         state: restarted
