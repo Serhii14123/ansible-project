@@ -1,0 +1,26 @@
+---
+- name: deploy nginx
+  hosts: all
+  become: yes
+  vars_files:
+    - ../vars/password.yml
+  tasks:
+
+    - name: install pyton3-docker
+      apt:
+        name: python3-docker
+        state: present
+        update_cache: yes
+
+    - name: deploy docker
+      community.general.docker_container:
+        name: my_web_prod
+        image: nginx
+        state: started
+        restart_policy: always
+        memory: 128m
+        published_ports:
+          - "8082:80"
+        volumes:
+          - "/home/madmin1/my-site:/usr/share/nginx/html:ro"
+
