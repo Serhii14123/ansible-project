@@ -1,0 +1,51 @@
+---
+- name: deploy full stack
+  hosts: all
+  become: yes
+  vars_files:
+    - ../vars/password.yml
+  tasks:
+    - name: create docker network
+      community.general.docker_network:
+        name: my_bridge_net
+
+    - name: create nginx container
+      community.general.docker_container:
+        name: nginx_docker
+        image: nginx:latest
+        state: started
+        restart_policy: always
+        networks:
+          - name: my_bridge_net
+        published_ports:
+          - "8080:80"
+        volumes:
+          - "/home/madmin1/my-site:/usr/share/nginx/html:ro"
+        recreate: yes
+
+    - name: create postgres container
+      community.general.docker_container:
+        name: postgres_docker
+        image: postgres:latest
+        state: started
+        restart_policy: always
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: "{{postgres_pass}}"
+        networks:
+          - name: my_bridge_net
+        volumes:
+          - "/home/madmin1/postgres_data:/var/lib/postgresql"
+        recreate: yes
+
+    - name: create adminer container
+      community.general.docker_container:
+        name: adminer_docker
+        image: adminer:latest
+        state: started
+        restart_policy: always
+        networks:
+          - name: my_bridge_net
+        published_ports:
+          - "8085:8080"
+        recreate: yes

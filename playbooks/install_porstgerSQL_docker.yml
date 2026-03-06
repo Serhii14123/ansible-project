@@ -5,5 +5,23 @@
   vars_files:
     - ../vars/password.yml
   tasks:
-    -name: create docker container with PostgerSQL
-     docker
+    - name: create directory postgres
+      file:
+        path: /home/madmin1/postgres_data
+        state: directory
+        mode: '0755'
+
+    - name: create docker container with PostgerSQL
+      community.general.docker_container:
+        name: postgresql_container
+        image: postgres:latest
+        state: started
+        restart_policy: always
+        memory: 500m
+        published_ports:
+          - "5432:5432"
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: "{{postgres_pass}}"
+        volumes:
+          - /home/madmin1/postgres_data:/var/lib/postgresql
