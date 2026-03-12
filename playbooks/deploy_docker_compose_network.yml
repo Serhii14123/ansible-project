@@ -57,8 +57,8 @@
   handlers:
     - name: restart compose
       community.docker.docker_compose_v2:
-      project_src: "{{project_root}}"
-      state: present
-      build: always
+        project_src: "{{project_root}}"
+        state: present
+        build: always
 
 
