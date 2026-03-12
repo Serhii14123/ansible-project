@@ -1,0 +1,15 @@
+server {
+    listen 80;               # Слушаем 80-й порт ВНУТРИ контейнера
+    server_name localhost;
+
+    location / {
+        root /usr/share/nginx/html;  # Путь внутри контейнера, где лежит твой сайт
+        index index.html;
+    }
+
+    # Специальная страница для проверки, что Nginx работает
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+}
