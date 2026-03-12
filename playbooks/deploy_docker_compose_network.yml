@@ -3,6 +3,62 @@
   hosts: all
   become: yes
   vars_files:
-    ../vars/password.yml
+    - ../vars/password.yml
   vars:
+    project_root: "/home/{{ansible_user}}/app"    
+  tasks:
+
+    - name: install git
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+
+    - name: create directory
+      file:
+        path: "{{project_root}}"
+        state: directory
+        recurse: yes
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
+        mode: '0755'
+
+    - name: remove my-site
+      file:
+        path: "{{project_root}}/my-site"
+        state: absent
+
+    - name: git clone 
+      git:
+        repo: 'https://github.com/cloudacademy/static-website-example.git'
+        dest: "{{project_root}}/my-site"
+        version: master
+        force: yes
+      become: no
+
+    - name: copy nginx.conf
+      template:
+        src: ../templates/nginx.conf.j2
+        dest: "{{project_root}}/nginx.conf"
+
+    - name: copy compose
+      template:
+        src: ../templates/docker-compose-network.yml.j2
+        dest: "{{project_root}}/docker-compose.yml"
+        validate: "/usr/bin/docker compose -f %s config"
+      notify: restart compose
     
+    - name: deploy compose
+      community.docker.docker_compose_v2:
+        project_src: "{{project_root}}"
+        state: present
+        remove_orphans: yes
+
+  handlers:
+    - name: restart compose
+      community.docker.docker_compose_v2:
+      project_src: "{{project_root}}"
+      state: present
+      build: always
+
+
