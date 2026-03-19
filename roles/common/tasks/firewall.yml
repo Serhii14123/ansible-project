@@ -1,0 +1,19 @@
+---
+- name: allow current SSH port (22)
+  ufw: 
+    rule: allow
+    port: '22'
+    proto: tcp
+
+- name: allow new SSH port ("{{ssh_port}}")
+  ufw: 
+    rule: allow
+    port: "{{ssh_port}}"
+    proto: tcp
+
+- name: Enable ufw and set default deny
+  ufw:
+    state: enabled 
+    policy: deny
+    direction: incoming
+    logging: low
