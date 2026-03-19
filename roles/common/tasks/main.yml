@@ -1,3 +1,12 @@
-- name: Include Docker installation tasks
-  ansible.builtin.include_tasks: install_docker.yml
-  when: install_docker_enabled | bool
+---
+- name: Install system packages
+  include_tasks: packages.yml
+
+- name: Setup users and sudoers
+  include_tasks: users.yml
+
+- name: Configure firewall rules
+  include_tasks: firewall.yml
+
+- name: Apply SSH security settings
+  include_tasks: security.yml
