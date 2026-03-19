@@ -1,0 +1,6 @@
+- name: Configure infrastructure
+  hosts: all
+  become: yes
+
+  roles:
+    - prepare_server

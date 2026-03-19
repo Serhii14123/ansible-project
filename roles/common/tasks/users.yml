@@ -1,0 +1,19 @@
+---
+- name: create_group
+  group:
+    name: devops
+    state: present
+
+- name: create_user
+  user: 
+    name: "{{ansible_user}}"
+    groups: devops, sudo
+    append: yes
+    password: "{{ansible_user_pass | password_hash('sha512') }}"
+    shell: /bin/bash
+
+- name: add_ssh_key
+  authorized_key:
+    name: "{{ansible_user}}"
+    state: present 
+    key: "{{lookup('file', '~/.ssh/id_ed25519.pub') }}"
