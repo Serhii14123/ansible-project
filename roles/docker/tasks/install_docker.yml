@@ -16,14 +16,14 @@
     state: directory
     mode: '0755'
 
-- name: copy_docke_gpg_keyrind
+- name: copy_docker_gpg_keyrind
   get_url:
-    dest: "{{docker_gpg_url}}"
-    src: "{{docker_keyring_path}}"
+    src: "{{docker_gpg_url}}"
+    dest: "{{docker_keyring_path}}"
 
 - name: add docker repository
   apt_repository:
-    repo: "deb [arch=amd64 signed-by= {{docker_keyring_path}}] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    repo: "deb [arch=amd64 signed-by={{docker_keyring_path}}] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
     state: present
 
 - name: istall docker
@@ -40,6 +40,6 @@
 
 - name: add_user_to_group_docker
   user:
-    name: "{{ansible_user}}"
+    name: "{{my_user}}"
     groups: docker
     append: yes
