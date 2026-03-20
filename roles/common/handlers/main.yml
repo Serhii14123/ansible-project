@@ -1,0 +1,9 @@
+---
+- name: restart ssh
+  service:
+    name: "{{item}}"
+    state: restarted
+    daemon_reload: yes
+  loop:
+    - ssh
+    - ssh.socketg

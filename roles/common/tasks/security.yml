@@ -12,3 +12,4 @@
     - { regexp: '^#?PasswordAuthentication' , line: 'PasswordAuthentication no' }
     - { regexp: '^#?Include /etc/ssh/sshd_config.d/*.conf' , line: '# Include /etc/ssh/sshd_config.d/*.conf' }
   notify: restart ssh
+        
