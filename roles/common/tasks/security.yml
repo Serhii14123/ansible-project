@@ -10,6 +10,6 @@
     - { regexp: '^#?Port' , line: "Port {{ssh_port}}" }
     - { regexp: '^#?PermitRootLogin' , line: 'PermitRootLogin no' }
     - { regexp: '^#?PasswordAuthentication' , line: 'PasswordAuthentication no' }
-    - { regexp: '^#?Include /etc/ssh/sshd_config.d/*.conf' , line: '# Include /etc/ssh/sshd_config.d/*.conf' }
+    - { regexp: '^#?Include /etc/ssh/sshd_config.d/\*\.conf' , line: '# Include /etc/ssh/sshd_config.d/*.conf' }
   notify: restart ssh
         
