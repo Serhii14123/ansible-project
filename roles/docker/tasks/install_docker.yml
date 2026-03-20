@@ -16,10 +16,11 @@
     state: directory
     mode: '0755'
 
-- name: copy_docker_gpg_keyrind
+- name: copy_docker_gpg_keyring
   get_url:
-    src: "{{docker_gpg_url}}"
+    url: "{{docker_gpg_url}}"
     dest: "{{docker_keyring_path}}"
+    mode: '0644'
 
 - name: add docker repository
   apt_repository:
