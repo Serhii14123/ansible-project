@@ -6,22 +6,22 @@
 
 - name: create_user
   user: 
-    name: "{{ansible_user}}"
+    name: "{my_user}}"
     groups: devops, sudo
     append: yes
-    password: "{{ansible_user_pass | password_hash('sha512') }}"
+    password: "{{my_user_pass | password_hash('sha512') }}"
     shell: /bin/bash
 
 - name: add_ssh_key
   authorized_key:
-    name: "{{ansible_user}}"
+    name: "{{my_user}}"
     state: present 
     key: "{{lookup('file', '~/.ssh/id_ed25519.pub') }}"
 
-- name: Allow "{{ansible_user}}" to have passwordless sudo
+- name: Allow "{{my_user}}" to have passwordless sudo
   lineinfile:
-    dest: /etc/sudoers.d/{{ ansible_user }}
-    line: "{{ ansible_user }} ALL=(ALL) NOPASSWD:ALL"
+    dest: /etc/sudoers.d/{{ my_user }}
+    line: "{{ my_user }} ALL=(ALL) NOPASSWD:ALL"
     create: yes
     mode: '0440'
     validate: 'visudo -cf %s'
