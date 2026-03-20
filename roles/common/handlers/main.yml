@@ -6,4 +6,4 @@
     daemon_reload: yes
   loop:
     - ssh
-    - ssh.socketg
+    - ssh.socket
