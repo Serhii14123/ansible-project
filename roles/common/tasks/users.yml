@@ -6,7 +6,7 @@
 
 - name: create_user
   user: 
-    name: "{my_user}}"
+    name: "{{my_user}}"
     groups: devops, sudo
     append: yes
     password: "{{my_user_pass | password_hash('sha512') }}"
@@ -14,7 +14,7 @@
 
 - name: add_ssh_key
   authorized_key:
-    name: "{{my_user}}"
+    user: "{{my_user}}"
     state: present 
     key: "{{lookup('file', '~/.ssh/id_ed25519.pub') }}"
 
