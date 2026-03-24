@@ -2,8 +2,8 @@
 - name: Configurete SSH config 
   lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: "{{item.regexp}}"
-    line: "{{item.line}}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
     state: present
     validate: '/usr/sbin/sshd -t -f %s'
   loop:

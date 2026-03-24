@@ -1,0 +1,8 @@
+services:
+
+{% for web_app_name, app_config in web_services.items() %}
+  {{ web_app_name }}:
+    image: {{ app_config.image }}
+    ports:
+      - "{{ app_config.host_port }}:{{ app_config.container_port }}"
+{% endfor %}

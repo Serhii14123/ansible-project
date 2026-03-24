@@ -1,7 +1,7 @@
 ---
 - name: install_docker
   apt:
-    name: "{{item}}"
+    name: "{{ item }}"
     state: present
     update_cache: yes
   loop:
@@ -12,24 +12,24 @@
 
 - name: create directory for key
   file:
-    path: "{{docker_gpg_keyrings_dir}}"
+    path: "{{ docker_gpg_keyrings_dir }}"
     state: directory
     mode: '0755'
 
 - name: copy_docker_gpg_keyring
   get_url:
-    url: "{{docker_gpg_url}}"
-    dest: "{{docker_keyring_path}}"
+    url: "{{ docker_gpg_url }}"
+    dest: "{{ docker_keyring_path }}"
     mode: '0644'
 
 - name: add docker repository
   apt_repository:
-    repo: "deb [arch=amd64 signed-by={{docker_keyring_path}}] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    repo: "deb [arch=amd64 signed-by={{ docker_keyring_path }}] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
     state: present
 
 - name: istall docker
   apt:
-    name: "{{item}}"
+    name: "{{ item }}"
     state: present
     update_cache: yes
   loop:
@@ -41,6 +41,6 @@
 
 - name: add_user_to_group_docker
   user:
-    name: "{{my_user}}"
+    name: "{{ my_user }}"
     groups: docker
     append: yes

@@ -1,0 +1,13 @@
+web_project_dir: "/home/{{ my_user }}/web_project"
+
+web_services:
+  web_app1:
+    image: nginxdemos/hello
+    host_port: 8080
+    container_port: 80
+
+  web_app2:
+    image: nginxdemos/hello
+    host_port: 8081
+    container_port: 80
+
