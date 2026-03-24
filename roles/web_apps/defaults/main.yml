@@ -5,9 +5,11 @@ web_services:
     image: nginxdemos/hello
     host_port: 8080
     container_port: 80
+    server_name: "app1.cloudtests.work"
 
   web_app2:
     image: nginxdemos/hello
     host_port: 8081
     container_port: 80
+    server_name: "app2.cloudtests.work"
 
