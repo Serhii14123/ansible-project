@@ -1,0 +1,6 @@
+---
+- name: generate load balancer config
+  template:
+    src: lb_proxy.conf.j2
+    dest: /etc/nginx/sites-enabled/lb_cluster.conf
+  notify: restart nginx

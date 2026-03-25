@@ -7,4 +7,5 @@
     - docker
     - web_apps
     - nginx 
-    - virtual_hosting
+#    - virtual_hosting
+    - load_balancer
