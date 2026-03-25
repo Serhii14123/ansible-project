@@ -1,0 +1,7 @@
+---
+- name: genarate app config
+  template:
+    src: app_proxy.conf.j2
+    dest: "/etc/nginx/sites-enabled/{{ item.key }}.conf"
+  loop: "{{ web_services | dict2items }}"
+  notify: restart nginx

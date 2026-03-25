@@ -5,26 +5,22 @@
     state: present
     update_cache: yes
 
+- name: Remove default nginx config
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Allow HTTP traffic
+  community.general.ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - '80'
+    - '443'
+
 - name: Start and enable nginx service
   service:
     name: nginx
     state: started
     enabled: yes
-
-- name: Allow HTTP traffic (port 80)
-  community.general.ufw:
-    rule: allow
-    port: '80'
-    proto: tcp
-
-- name: remove default config
-  file:
-    path: /etc/nginx/sites-enabled/default
-    state: absent
-
-- name: genarate app config
-  template:
-    src: app_proxy.conf.j2
-    dest: "/etc/nginx/sites-enabled/{{ item.key }}.conf"
-  loop: "{{ web_services | dict2items }}"
-  notify: restart nginx
