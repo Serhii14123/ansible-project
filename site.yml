@@ -1,9 +1,10 @@
 - name: Configure infrastructure
   hosts: all
-  become: yes
+  become: true
 
   roles:
     - common
     - docker
     - web_apps
     - nginx 
+    - virtual_hosting
