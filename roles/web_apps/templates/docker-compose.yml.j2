@@ -4,5 +4,5 @@ services:
   {{ web_app_name }}:
     image: {{ app_config.image }}
     ports:
-      - "{{ app_config.host_port }}:{{ app_config.container_port }}"
+      - "127.0.0.1:{{ item.value.host_port }}:{{ item.value.container_port }}"
 {% endfor %}

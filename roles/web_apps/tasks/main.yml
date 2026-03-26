@@ -1,11 +1,4 @@
 ---
-- name: Allow application ports in UFW
-  ufw:
-    rule: allow
-    port: "{{ item.value.host_port }}"
-    proto: tcp
-  loop: "{{ web_services | dict2items }}"
-
 - name: Create project directory
   file:
     path: "{{ web_project_dir }}"
