@@ -10,7 +10,7 @@
     path: /etc/nginx/sites-enabled/default
     state: absent
 
-- name: Allow HTTP traffic
+- name: Allow HTTPs traffic
   community.general.ufw:
     rule: allow
     port: "{{ item }}"
