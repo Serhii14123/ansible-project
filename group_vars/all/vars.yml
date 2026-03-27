@@ -5,3 +5,6 @@ my_user: madmin1
 
 domain_name: "cloudtests.work"
 admin_email: "bursv1994serja@gmail.com"
+
+postgres_db_name: "projectname_prod"
+postgresql_db_user: "projectname_user"

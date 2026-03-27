@@ -1,0 +1,9 @@
+---
+- name: configure infrastructure
+  hosts: db
+  become: true
+  gather_facts: yes
+
+  roles:
+  - common
+  - postgres 
