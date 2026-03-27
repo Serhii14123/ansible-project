@@ -1,6 +1,6 @@
 ---
 - name: configure infrastructure
-  hosts: db
+  hosts: db_servers
   become: true
   gather_facts: yes
 
