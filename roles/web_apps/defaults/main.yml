@@ -6,10 +6,20 @@ web_services:
     host_port: 8080
     container_port: 80
     server_name: "app1.cloudtests.work"
+    env:
+      DB_HOST: "{{ hostvars['db_01']['ansible_host'] }}"
+      DB_NAME: "{{ postgres_db_name }}"
+      DB_USER: "{{ postgresql_db_user }}"
+      DB_PASS: "{{ postgresql_db_pass }}"
 
   web_app2:
     image: nginxdemos/hello
     host_port: 8081
     container_port: 80
     server_name: "app2.cloudtests.work"
+    env:
+      DB_HOST: "{{ hostvars['db_01']['ansible_host'] }}"
+      DB_NAME: "{{ postgres_db_name }}"
+      DB_USER: "{{ postgresql_db_user }}"
+      DB_PASS: "{{ postgresql_db_pass }}"
 

@@ -1,8 +1,17 @@
 services:
 
-{% for web_app_name, app_config in web_services.items() %}
-  {{ web_app_name }}:
-    image: {{ app_config.image }}
+{% for service_name, service_config in web_services.items() %}
+  {{ service_name }}:
+    image: {{ service_config.image }}
     ports:
-      - "127.0.0.1:{{ item.value.host_port }}:{{ item.value.container_port }}"
+      - "{{ item.value.host_port }}:{{ item.value.container_port }}"
+
+    {% if service_config.env is defined %}
+    environment:
+      {% for env_key, env_val in service_config.env.items() %}
+      {{ env_key }}: "{{ env_val }}"
+      {% endfor %}
+    {% endif %}
+    
+    restart: always
 {% endfor %}

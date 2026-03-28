@@ -16,3 +16,5 @@
   community.docker.docker_compose_v2:
     project_src: "{{ web_project_dir }}"
     state: present 
+    env: "{{ item.value.env | default({}) }}" # Добавь эту строку
+  loop: "{{ web_services | dict2items }}"
