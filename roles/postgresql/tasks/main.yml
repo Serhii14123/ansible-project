@@ -32,7 +32,7 @@
     path: "{{ pg_config_path }}/postgresql.conf"
     regexp: '^#?listen_addresses'
     line: "listen_addresses = '*'"
-    notify: restart postgresql
+  notify: restart postgresql
 
 - name: Grant access to DB for web servers
   community.postgresql.postgresql_pg_hba:
