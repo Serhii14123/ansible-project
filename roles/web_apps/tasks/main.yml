@@ -15,5 +15,4 @@
 - name: Run Docker Compose
   community.docker.docker_compose_v2:
     project_src: "{{ web_project_dir }}"
-    state: present 
-    env: "{{ item.value.env | default({}) }}" 
+    state: present
