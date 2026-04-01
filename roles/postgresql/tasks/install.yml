@@ -1,0 +1,16 @@
+---
+# tasks installpostgresql
+- name: install postgresql
+  apt:
+    name:
+      - postgresql
+      - postgresql-contrib
+      - python3-psycopg2
+    state: present 
+    update_cache: true
+
+- name: enable service postgresql
+  service: 
+    name: postgresql
+    state: started
+    enabled: true

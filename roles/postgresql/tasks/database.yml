@@ -1,0 +1,16 @@
+- name: create database
+  community.postgresql.postgresql_db:
+    name: "{{ postgres_db_name }}"
+
+- name: Create database user
+  community.postgresql.postgresql_user:
+    name: "{{ postgresql_db_user }}"
+    password: "{{ postgresql_db_pass }}"
+
+- name: Grant ALL privileges on database to user
+  community.postgresql.postgresql_privs:
+    db: "{{ postgres_db_name }}"
+    role: "{{ postgresql_db_user }}"
+    objs: "{{ postgres_db_name }}"
+    type: database
+    privs: ALL

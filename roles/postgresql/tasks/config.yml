@@ -1,0 +1,32 @@
+---
+- name: find directory postgresql config
+  find:
+    paths: /etc/postgresql
+    recurse: true
+    patterns: 'postgresql.conf'
+  register: pg_conf_result
+
+- name: set variable for postgresql config directory 
+  set_fact:
+    # Берем путь первого найденного файла и отрезаем само имя файла, оставляя путь к папке
+    pg_config_path: "{{ pg_conf_result.files[0].path | dirname }}"
+
+- name: Configure PostgreSQL to listen on all network interfaces
+  lineinfile: 
+    path: "{{ pg_config_path }}/postgresql.conf"
+    regexp: '^#?listen_addresses'
+    line: "listen_addresses = '*'"
+  notify: restart postgresql
+
+- name: Grant access to DB for web servers
+  community.postgresql.postgresql_pg_hba:
+    dest: "{{ pg_config_path }}/pg_hba.conf"
+    contype: host
+    databases: "{{ postgres_db_name }}"
+    users: "{{ postgresql_db_user }}"
+    address: "{{ hostvars[item]['ansible_host'] }}/32"
+    method: md5
+  loop: "{{ groups['web_servers'] }}"
+  notify: restart postgresql
+  become: true
+  become_user: postgres

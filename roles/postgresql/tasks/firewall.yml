@@ -1,0 +1,8 @@
+---
+- name: allow postgresql port in UFW for group web_servers
+  ufw:
+    rule: allow
+    port: 5432
+    proto: tcp
+    from_ip:  "{{ hostvars[item]['ansible_host'] }}"
+  loop: "{{ groups['web_servers'] }}"
