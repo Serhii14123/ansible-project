@@ -8,7 +8,7 @@
   - postgresql 
 
 - name: Configure infrastructure web
-  hosts: [web_servers]
+  hosts: web_servers
   become: true
 
   roles:
@@ -17,8 +17,8 @@
     - web_apps
     - nginx 
     - ssl_certs_cloudflare
-#    - virtual_hosting
-    - load_balancer
+    - virtual_hosting
+#    - load_balancer
 
 
 
