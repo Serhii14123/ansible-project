@@ -1,12 +1,12 @@
 server {
     listen 80;
-    server_name {{ domain_name }} *.{{ domain_name }};
+    server_name {{ item.value.server_name }};
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl;
-    server_name {{ domain_name }} *.{{ domain_name }};
+    server_name {{ item.value.server_name }};
 
     # Пути всегда будут такими для Wildcard
     ssl_certificate /etc/letsencrypt/live/{{ domain_name }}/fullchain.pem;
