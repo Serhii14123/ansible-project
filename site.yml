@@ -1,5 +1,14 @@
-- name: Configure infrastructure
-  hosts: all
+- name: configure infrastructure db
+  hosts: db_servers
+  become: true
+  gather_facts: true
+
+  roles:
+  - common
+  - postgresql 
+
+- name: Configure infrastructure web
+  hosts: [web_servers]
   become: true
 
   roles:
@@ -10,3 +19,6 @@
     - ssl_certs_cloudflare
 #    - virtual_hosting
     - load_balancer
+
+
+
