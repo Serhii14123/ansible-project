@@ -12,13 +12,13 @@
   become: true
 
   roles:
-#    - common
-#    - docker
+    - common
+    - docker
     - web_apps
     - nginx 
     - ssl_certs_cloudflare
     - virtual_hosting
-#    - load_balancer
+    - load_balancer
 
 
 
