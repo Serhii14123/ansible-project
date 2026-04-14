@@ -17,8 +17,8 @@
 
 - name: Setup Cron job for database backup
   ansible.builtin.cron:
-    name: "Backup for {{ postgres_backup_db_name }}"
+    name: "Backup for {{ backup_postgres_db_name }}"
     user: postgres
     hour: "{{ backup_postgres_hour }}"
     minute: "{{ backup_postgres_minute }}"
-    job: "/usr/local/bin/{{ backup__postgres_script_name }}" 
+    job: "/usr/local/bin/{{ backup_postgres_script_name }}" 
