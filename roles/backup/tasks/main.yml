@@ -1,4 +1,4 @@
 ---
 - name: run Postgres backup tasks
   include_tasks: postgres.yml
-  where: backup_type == "postgres"
+  when: backup_type == "postgres"
