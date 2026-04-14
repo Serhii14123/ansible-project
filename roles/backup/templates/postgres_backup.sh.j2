@@ -1,0 +1,21 @@
+#!/bin/bash
+
+BACKUP_DIR="{{ backup_path }}"
+DB_NAME="{{ backup_db_name }}"
+DATE=$(date +%Y-%m-%d_%H)
+FILE_NAME="${DB_NAME}_${DATE}.sql"
+
+mkdir -p $BACKUP_DIR
+
+# Делаем дамп
+pg_dump $DB_NAME > $BACKUP_DIR/$FILE_NAME
+
+# Чистим старье (старше 7 дней)
+find $BACKUP_DIR -type f -mtime +7 -name "*.sql" -delete
+
+# Пишем в лог для отладки
+if [ $? -eq 0 ]; then
+    echo "[$DATE] Backup SUCCESS: $FILE_NAME" >> $BACKUP_DIR/backup.log
+else
+    echo "[$DATE] Backup FAILED" >> $BACKUP_DIR/backup.log
+fi
