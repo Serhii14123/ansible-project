@@ -1,4 +1,8 @@
 ---
+- name: Create backup-manager user on storage server
+  include_tasks: setup_storage.yml
+  run_once: true
+
 - name: run Postgres backup tasks
   include_tasks: postgres.yml
   when: backup_type == "postgres"

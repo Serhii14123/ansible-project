@@ -6,6 +6,7 @@
     owner: postgres
     group: postgres
     mode: '0755'
+  
 
 - name: Deploy backup script
   template:
@@ -22,3 +23,4 @@
     hour: "{{ backup_postgres_hour }}"
     minute: "{{ backup_postgres_minute }}"
     job: "/usr/local/bin/{{ backup_postgres_script_name }}" 
+

@@ -10,6 +10,7 @@
     vars: 
       backup_type: "postgres"
       backup_postgres_db_name: "projectname_prod"
+      
 
 - name: Configure infrastructure web
   hosts: web_servers

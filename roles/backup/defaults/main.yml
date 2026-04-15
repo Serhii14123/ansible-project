@@ -2,3 +2,7 @@ backup_postgres_path: "/var/backups/postgres"
 backup_postgres_script_name: "db_backup.sh"
 backup_postgres_hour: "03"
 backup_postgres_minute: "00"
+backup_postgres_db_name: "default_db"
+
+backup_remote_server_ip: "{{ hostvars['web-01']['ansible_host'] }}"
+backup_postgres_remote_path: "/home/backup-manager/backups/{{ inventory_hostname }}/postgres"
