@@ -19,7 +19,7 @@ SSH_KEY="/var/lib/postgresql/.ssh/id_ed25519"
 pg_dump "$DB_NAME" | gzip > "$BACKUP_DIR/$FILE_NAME"
 
 # 2. Transfer to remote storage
-rsync -avz -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=no" \
+rsync -avz -e "ssh -p {{ssh_port}} -i $SSH_KEY -o StrictHostKeyChecking=no" \
     "$BACKUP_DIR/$FILE_NAME" \
     "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/"
 
